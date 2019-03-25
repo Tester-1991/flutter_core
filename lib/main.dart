@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_core/common/http/http_manager.dart';
 import 'package:flutter_core/common/permission/permission_manager.dart';
 import 'package:flutter_core/example/base_register.dart';
+import 'package:flutter_core/example/dartpub/ASSwiper.dart';
 import 'package:flutter_core/example/image_page.dart';
+import 'package:flutter_core/example/url_launcher.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:simple_permissions/simple_permissions.dart';
 
-void main() {
+void main() async {
   runApp(MyApp());
 }
 
@@ -71,15 +73,38 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Image组件"),
-        ),
-        body: Builder(
-          builder: (context) {
-            return TestImage();
-          },
-        ),
+      theme: ThemeData(
+          primarySwatch: Colors.blue, canvasColor: Colors.transparent // 透明
+          ),
+      home: ASUrlLauncher(),
+    );
+  }
+}
+
+class MyStateApp extends StatefulWidget {
+  @override
+  _MyStateAppState createState() => _MyStateAppState();
+}
+
+class _MyStateAppState extends State<MyStateApp> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text("Image组件"),
+      ),
+      body: Builder(
+        builder: (context) {
+          return InkWell(
+            child: TestImage(),
+          );
+        },
       ),
     );
   }
