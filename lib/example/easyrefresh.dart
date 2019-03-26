@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_core/example/image_page.dart';
+import 'package:flutter_core/generated/i18n.dart';
+import 'package:flutter_core/main.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 
@@ -39,12 +40,9 @@ class _ASEasyRefreshState extends State<ASEasyRefresh> {
             itemBuilder: (context, index) {
               return ListTile(
                 title: InkWell(
-                  child: Text("第$index项"),
+                  child: Text(S.of(context).index(index.toString())),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return TestImage();
-                    }));
+                    localeChange(Locale('zh', ''));
                   },
                 ),
               );
@@ -52,7 +50,6 @@ class _ASEasyRefreshState extends State<ASEasyRefresh> {
             itemCount: count,
           ),
           autoLoad: false,
-          firstRefresh: false,
           refreshHeader: MaterialHeader(
             key: _headerKey,
             backgroundColor: Colors.white,

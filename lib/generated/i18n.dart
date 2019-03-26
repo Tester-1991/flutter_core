@@ -19,10 +19,21 @@ class S implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
+  String index(String index) => "at $index option";
 }
 
 class $en extends S {
   const $en();
+}
+
+class $zh extends S {
+  const $zh();
+
+  @override
+  TextDirection get textDirection => TextDirection.ltr;
+
+  @override
+  String index(String index) => "第${index}项";
 }
 
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
@@ -31,6 +42,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale("en", ""),
+      Locale("zh", ""),
     ];
   }
 
@@ -57,6 +69,8 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
       switch (lang) {
         case "en":
           return SynchronousFuture<S>(const $en());
+        case "zh":
+          return SynchronousFuture<S>(const $zh());
         default:
           // NO-OP.
       }

@@ -1,85 +1,13 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_core/common/http/http_manager.dart';
-import 'package:flutter_core/common/permission/permission_manager.dart';
-import 'package:flutter_core/example/data/base_register.dart';
 import 'package:flutter_core/example/easyrefresh.dart';
-import 'package:flutter_core/example/image_page.dart';
-import 'package:flutter_core/example/url_launcher.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:simple_permissions/simple_permissions.dart';
+import 'package:flutter_core/generated/i18n.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
-  runApp(MyApp());
+  runApp(MyStateApp());
 }
 
-requestPermission() async {
-  bool requestPermission = await PermissionManager.requestPermission(
-      [Permission.WriteExternalStorage]);
-
-  if (!requestPermission) return;
-
-  var result = await HttpManager.getInstance()
-      .download("blogimgs/50c115c2-cf6c-4802-aa7b-a4334de444cd.png",
-          progressCallback: (received, total) {
-    if (total != -1) {
-      print((received / total * 100).toStringAsFixed(0) + "%");
-    }
-  });
-
-  if (result) {
-    print("下载成功");
-  } else {
-    print("下载失败");
-  }
-}
-
-requestPermission2() async {
-  var requestPermission = await PermissionManager.requestPermission(
-      [Permission.WriteExternalStorage, Permission.Camera]);
-
-  if (requestPermission) {
-    print("权限获取成功");
-  } else {
-    print("权限获取失败");
-  }
-}
-
-uploadFile() async {
-  Directory directory = await getExternalStorageDirectory();
-
-  File file =
-      File(directory.path + "/" + "50c115c2-cf6c-4802-aa7b-a4334de444cd.png");
-
-  FormData data = FormData.from({
-    "image": UploadFileInfo(file, "50c115c2-cf6c-4802-aa7b-a4334de444cd.png")
-  });
-
-  HttpManager.getInstance().request(
-      "http://testapp.airspace.cn/api/image/upload",
-      data: data,
-      method: "post",
-      headers: {'Token': '849d769d55344a6cb8261dd6cebf9dc0'},
-      onReceiveProgress: (received, total) {
-    if (total != -1) {
-      print((received / total * 100).toStringAsFixed(0) + "%");
-    }
-  });
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-          primarySwatch: Colors.blue, canvasColor: Colors.transparent // 透明
-          ),
-      home: ASEasyRefresh(),
-    );
-  }
-}
+ValueChanged<Locale> localeChange;
 
 class MyStateApp extends StatefulWidget {
   @override
@@ -87,52 +15,46 @@ class MyStateApp extends StatefulWidget {
 }
 
 class _MyStateAppState extends State<MyStateApp> {
+  Locale _locale = const Locale('en', '');
+
   @override
   void initState() {
     super.initState();
+
+    localeChange = (locale) {
+      setState(() {
+        _locale = locale;
+      });
+    };
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text("Image组件"),
-      ),
-      body: Builder(
-        builder: (context) {
-          return InkWell(
-            child: TestImage(),
+    return MaterialApp(
+        theme: ThemeData(
+            primarySwatch: Colors.blue, canvasColor: Colors.transparent // 透明
+            ),
+
+        ///本地代理
+        localizationsDelegates: const [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+
+        ///支持的语言
+        supportedLocales: S.delegate.supportedLocales,
+
+        ///系统语言环境改变回调
+        localeResolutionCallback: S.delegate.resolution(
+          fallback: const Locale('zh'),
+        ),
+        home: Builder(builder: (context) {
+          return Localizations.override(
+            context: context,
+            locale: _locale,
+            child: ASEasyRefresh(),
           );
-        },
-      ),
-    );
+        }));
   }
-}
-
-void register() async {
-  var url = "user/register";
-
-  var formdata = FormData.from(
-      {"username": "shiyan21", "password": "123456", "repassword": "123456"});
-
-  var result = await HttpManager.getInstance()
-      .request(url, data: formdata, method: "post");
-
-  RegisterBase registerBase = RegisterBase.fromJson(result);
-
-  print(registerBase.data.username);
-}
-
-void register2(context) async {
-  var url = "user/register";
-
-  var data = {
-    "username": "shiyan21",
-    "password": "123456",
-    "repassword": "123456"
-  };
-
-  await HttpManager.getInstance()
-      .post(url, data: data, method: "post", context: context);
 }
