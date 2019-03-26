@@ -4,8 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/common/http/http_manager.dart';
 import 'package:flutter_core/common/permission/permission_manager.dart';
-import 'package:flutter_core/example/base_register.dart';
-import 'package:flutter_core/example/dartpub/ASSwiper.dart';
+import 'package:flutter_core/example/data/base_register.dart';
+import 'package:flutter_core/example/easyrefresh.dart';
 import 'package:flutter_core/example/image_page.dart';
 import 'package:flutter_core/example/url_launcher.dart';
 import 'package:path_provider/path_provider.dart';
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.blue, canvasColor: Colors.transparent // 透明
           ),
-      home: ASUrlLauncher(),
+      home: ASEasyRefresh(),
     );
   }
 }

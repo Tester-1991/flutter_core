@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'package:flutter_core/example/register.g.dart';
+part 'package:flutter_core/example/data/register.g.dart';
 
 @JsonSerializable()
 class Register {

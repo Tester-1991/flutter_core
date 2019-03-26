@@ -1,7 +1,7 @@
-import 'package:flutter_core/example/register.dart';
+import 'package:flutter_core/example/data/register.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'package:flutter_core/example/base_register.g.dart';
+part 'package:flutter_core/example/data/base_register.g.dart';
 @JsonSerializable()
 class RegisterBase {
   String errorMsg;

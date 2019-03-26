@@ -89,3 +89,5 @@ void register2() async {
       await HttpManager.getInstance().post(url, data: data, method: "post");
 }
 
+
+
