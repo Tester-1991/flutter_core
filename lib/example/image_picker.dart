@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_core/common/permission/permission_manager.dart';
 import 'package:simple_permissions/simple_permissions.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 ///获取相机相册图片
 class ASImagePicker extends StatefulWidget {
@@ -13,17 +14,16 @@ class ASImagePicker extends StatefulWidget {
 class _ASImagePickerState extends State<ASImagePicker> {
   File _image;
 
-    List permissions = [Permission.Camera];
+  List permissions = [Permission.Camera];
 
-    Future _getImage() async {
-      var result = await PermissionManager.requestPermission(permissions);
+  Future _getImage() async {
+    var result = await PermissionManager.requestPermission(permissions);
 
-      if (!result) return;
+    if (!result) return;
 
-      var image = await ImagePicker.pickImage(source: ImageSource.camera);
-      setState(() {
-        _image = image;
-      });
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    await _cropImage(image);
   }
 
   @override
@@ -42,5 +42,18 @@ class _ASImagePickerState extends State<ASImagePicker> {
         child: Icon(Icons.add_a_photo),
       ),
     );
+  }
+
+  Future<Null> _cropImage(File imageFile) async {
+    File croppedFile = await ImageCropper.cropImage(
+      sourcePath: imageFile.path,
+      ratioX: 1.0,
+      ratioY: 1.0,
+      maxWidth: 512,
+      maxHeight: 512,
+    );
+    setState(() {
+      _image = croppedFile;
+    });
   }
 }

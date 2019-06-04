@@ -99,6 +99,49 @@ class HttpManager {
   }
 
   ///发送请求
+  get(String url,
+      {Map<String, dynamic> data,
+      method = "get",
+      headers,
+      onReceiveProgress,
+      context}) async {
+    try {
+      if (context != null) {
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (_) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            });
+      }
+
+      CancelToken cancelToken = CancelToken();
+
+      ///保存token
+      _map[url] = cancelToken;
+
+      Options options = Options(method: method, headers: headers);
+
+      Response response = await _dio.get(url,
+          queryParameters: data,
+          options: options,
+          cancelToken: cancelToken,
+          onReceiveProgress: onReceiveProgress);
+
+      if (context != null) {
+        Navigator.pop(context);
+      }
+
+      return response.data;
+    } catch (e) {
+      print("请求错误:$e");
+      return null;
+    }
+  }
+
+  ///发送请求
   post(String url, {data, method = "post", context}) async {
     try {
       if (context != null) {
