@@ -11,6 +11,7 @@ import 'package:flutter_core/example/page/notification_listener_page.dart';
 import 'package:flutter_core/example/page/notification_page.dart';
 import 'package:flutter_core/example/page/pointer_page.dart';
 import 'package:flutter_core/example/page/scale_animation_page.dart';
+import 'package:flutter_core/example/page/stagger_animation_page.dart';
 import 'package:flutter_core/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -42,6 +43,7 @@ class _MyStateAppState extends State<MyStateApp> {
     "listview点击事件外部执行",
     "放大动画",
     "动画跳转到下一个页面",
+    "交错动画",
   ];
 
   @override
@@ -80,6 +82,7 @@ class _MyStateAppState extends State<MyStateApp> {
           "drag_vertial_page": (context) => DragVertialPage(),
           "notification_page": (context) => NotificationPage(),
           "scale_animation_page": (context) => ScaleAnimationPage(),
+          "stagger_animation_page": (context) => StaggerAnimationPage(),
         },
 
         ///支持的语言
@@ -179,6 +182,10 @@ class _MyStateAppState extends State<MyStateApp> {
                                 },
                               ),
                             );
+                            break;
+                          case 13:
+                            Navigator.pushNamed(
+                                context, "stagger_animation_page");
                             break;
                         }
                       },
