@@ -1,12 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/example/page/bottom_navigation_bar_page.dart';
 import 'package:flutter_core/example/page/constrained_box_page.dart';
 import 'package:flutter_core/example/page/custom_scroll_view_page.dart';
 import 'package:flutter_core/example/page/drag_page.dart';
+import 'package:flutter_core/example/page/drag_vertial_page.dart';
 import 'package:flutter_core/example/page/gesture_detector_page.dart';
 import 'package:flutter_core/example/page/gridview_page.dart';
 import 'package:flutter_core/example/page/notification_listener_page.dart';
+import 'package:flutter_core/example/page/notification_page.dart';
 import 'package:flutter_core/example/page/pointer_page.dart';
+import 'package:flutter_core/example/page/scale_animation_page.dart';
 import 'package:flutter_core/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -34,6 +38,10 @@ class _MyStateAppState extends State<MyStateApp> {
     "Pointer使用",
     "GestureDetector使用",
     "拖拽控件使用",
+    "DragVertial使用",
+    "listview点击事件外部执行",
+    "放大动画",
+    "动画跳转到下一个页面",
   ];
 
   @override
@@ -69,6 +77,9 @@ class _MyStateAppState extends State<MyStateApp> {
           "pointer_page": (context) => PointerPage(),
           "gesture_detector_page": (context) => GestureDetectorPage(),
           "drag_page": (context) => DragPage(),
+          "drag_vertial_page": (context) => DragVertialPage(),
+          "notification_page": (context) => NotificationPage(),
+          "scale_animation_page": (context) => ScaleAnimationPage(),
         },
 
         ///支持的语言
@@ -141,8 +152,33 @@ class _MyStateAppState extends State<MyStateApp> {
                                 context, "gesture_detector_page");
                             break;
                           case 8:
+                            Navigator.pushNamed(context, "drag_page");
+                            break;
+                          case 9:
+                            Navigator.pushNamed(context, "drag_vertial_page");
+                            break;
+                          case 10:
+                            Navigator.pushNamed(context, "notification_page");
+                            break;
+                          case 11:
                             Navigator.pushNamed(
-                                context, "drag_page");
+                                context, "scale_animation_page");
+                            break;
+                          case 12:
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                transitionDuration: Duration(milliseconds: 500),
+                                pageBuilder: (BuildContext context,
+                                    Animation<double> animation,
+                                    Animation<double> secondaryAnimation) {
+                                  return FadeTransition(
+                                    opacity: animation,
+                                    child: CustomScrollViewPage(),
+                                  );
+                                },
+                              ),
+                            );
                             break;
                         }
                       },
