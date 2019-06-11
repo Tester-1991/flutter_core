@@ -11,7 +11,11 @@ import 'package:flutter_core/example/page/notification_listener_page.dart';
 import 'package:flutter_core/example/page/notification_page.dart';
 import 'package:flutter_core/example/page/pointer_page.dart';
 import 'package:flutter_core/example/page/scale_animation_page.dart';
+import 'package:flutter_core/example/page/slider_page.dart';
 import 'package:flutter_core/example/page/stagger_animation_page.dart';
+import 'package:flutter_core/example/page/tabbar_page.dart';
+import 'package:flutter_core/example/page/tabbar_two_page.dart';
+import 'package:flutter_core/example/page/turn_box_page.dart';
 import 'package:flutter_core/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -44,6 +48,10 @@ class _MyStateAppState extends State<MyStateApp> {
     "放大动画",
     "动画跳转到下一个页面",
     "交错动画",
+    "旋转盒子",
+    "tabbar组件",
+    "tabbar组件2",
+    "slider组件",
   ];
 
   @override
@@ -83,6 +91,10 @@ class _MyStateAppState extends State<MyStateApp> {
           "notification_page": (context) => NotificationPage(),
           "scale_animation_page": (context) => ScaleAnimationPage(),
           "stagger_animation_page": (context) => StaggerAnimationPage(),
+          "turn_box_page": (context) => TurnBoxPage(),
+          "tabbar_page": (context) => TabBarPage(),
+          "tabbar_two_page": (context) => TabBarTwoPage(),
+          "slider_page": (context) => SliderPage(),
         },
 
         ///支持的语言
@@ -186,6 +198,18 @@ class _MyStateAppState extends State<MyStateApp> {
                           case 13:
                             Navigator.pushNamed(
                                 context, "stagger_animation_page");
+                            break;
+                          case 14:
+                            Navigator.pushNamed(context, "turn_box_page");
+                            break;
+                          case 15:
+                            Navigator.pushNamed(context, "tabbar_page");
+                            break;
+                          case 16:
+                            Navigator.pushNamed(context, "tabbar_two_page");
+                            break;
+                          case 17:
+                            Navigator.pushNamed(context, "slider_page");
                             break;
                         }
                       },
